@@ -5,24 +5,51 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-    console.log(playerSelection, computerSelection);
-    if (playerSelection == "rock" && computerSelection == "paper") {
-        return ['You lose! Paper beats Rock.', 0, 1];
-    } else if (playerSelection == "rock" && computerSelection == "scissors") {
-        return ['You win! Rock beats scissors.', 1, 0];
-    } else if (playerSelection == "paper" && computerSelection == "rock") {
-        return ['You win! Paper beats Rock.', 1, 0];
-    } else if (playerSelection == "paper" && computerSelection == "scissors") {
-        return ['You lose! Scissors beats Paper.', 0, 1];
-    } else if (playerSelection == "scissors" && computerSelection == "rock") {
-        return ['You lose! Rock beats Scissors.', 0, 1];
-    } else if (playerSelection == "scissors" && computerSelection == "paper") {
-        return ['You win! Scissors beats Paper.', 1, 0];
-    } else {
-        return ['You tied!', 0, 0];
+    switch (true) {
+        case (playerSelection == computerSelection):
+            updateScore(0, 0);
+            displayResult('Tied', playerSelection, computerSelection, tie=true);
+            break;
+        case (playerSelection == "rock" && computerSelection == "paper"):
+        case (playerSelection == "paper" && computerSelection == "scissors"):
+        case (playerSelection == "scissors" && computerSelection == "rock"):
+            updateScore(0, 1);
+            displayResult('Lose', computerSelection, playerSelection);
+            break;
+        default:
+            updateScore(1, 0);
+            displayResult('Won', playerSelection, computerSelection);
     }
 }
 
+function displayResult(winLoseResult, winChoice, loseChoice, tie=false) {
+    const result = document.querySelector('#result');
+    const winner = checkWinner();
+    if (tie) {
+        result.textContent = `You ${winLoseResult}!`;
+    } else if (winner) {
+        result.textContent = `${winner} wins!`;
+    } else {
+        result.textContent = `You ${winLoseResult}! ${winChoice} beats ${loseChoice}`;
+    }
+}
+
+function updateScore(playerIncrement, computerIncrement) {
+    const playerScore = document.querySelector('#playerScore');
+    const computerScore = document.querySelector('#computerScore');
+    playerScore.textContent = Number(playerScore.textContent) + playerIncrement;
+    computerScore.textContent = Number(computerScore.textContent) + computerIncrement;
+}
+
+function checkWinner() {
+    if (document.querySelector('#playerScore').textContent == 5) {
+        return "The Player";
+    } else if (document.querySelector('#computerScore').textContent == 5) {
+        return "The Computer";
+    } else {
+        return "";
+    }
+}
 
 // Add event listeners to buttons depending on the player's choice
 const rock = document.querySelector('#rock');
