@@ -5,6 +5,7 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
+    console.log(playerSelection, computerSelection);
     if (playerSelection == "rock" && computerSelection == "paper") {
         return ['You lose! Paper beats Rock.', 0, 1];
     } else if (playerSelection == "rock" && computerSelection == "scissors") {
@@ -22,20 +23,12 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function playGame() {
-    let playerSelection;
-    let playerScore = 0;
-    let computerScore = 0;
-    while (playerScore < 5 && computerScore < 5) {
-        playerSelection = prompt('Choose: Rock, Paper, Scissors').toLowerCase();
-        let [result_str, p_score, c_score] = playRound(playerSelection, getComputerChoice());
-        playerScore += p_score;
-        computerScore += c_score;
-        console.log(`${result_str} Current Score: ${playerScore} - ${computerScore}`)
-    }
 
-    if (playerScore == 5) {
-        console.log('Player wins!');
-    }
-    console.log('Computer wins!');
-}
+// Add event listeners to buttons depending on the player's choice
+const rock = document.querySelector('#rock');
+const paper = document.querySelector('#paper');
+const scissors = document.querySelector('#scissors');
+
+rock.addEventListener('click', () => playRound('rock', getComputerChoice()));
+paper.addEventListener('click', () => playRound('paper', getComputerChoice()));
+scissors.addEventListener('click', () => playRound('scissors', getComputerChoice()));
