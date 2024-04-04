@@ -5,6 +5,10 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
+    if (checkWinner()) {
+        resetMatch();
+    }
+
     switch (true) {
         case (playerSelection == computerSelection):
             updateScore(0, 0);
@@ -26,9 +30,9 @@ function displayResult(winLoseResult, winChoice, loseChoice, tie=false) {
     const result = document.querySelector('#result');
     const winner = checkWinner();
     if (tie) {
-        result.textContent = `You ${winLoseResult}!`;
+        result.textContent = `You ${winLoseResult}! The game will reset with the next choice.`;
     } else if (winner) {
-        result.textContent = `${winner} wins!`;
+        result.textContent = `${winner} wins! The game will reset with the next choice.`;
     } else {
         result.textContent = `You ${winLoseResult}! ${winChoice} beats ${loseChoice}`;
     }
@@ -49,6 +53,15 @@ function checkWinner() {
     } else {
         return "";
     }
+}
+
+function resetMatch() {
+    const result = document.querySelector('#result');
+    const playerScore = document.querySelector('#playerScore');
+    const computerScore = document.querySelector('#computerScore');
+    result.textContent = "";
+    playerScore.textContent = 0;
+    computerScore.textContent = 0;
 }
 
 // Add event listeners to buttons depending on the player's choice
